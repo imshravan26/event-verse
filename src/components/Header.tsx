@@ -13,7 +13,7 @@ const Header = () => {
           to="/"
           className="text-xl font-bold text-gray-800 dark:text-white"
         >
-          MiniLuma
+          Event Verse
         </Link>
         <div className="animate-pulse bg-gray-200 dark:bg-gray-600 h-10 w-20 rounded"></div>
       </header>
@@ -24,7 +24,7 @@ const Header = () => {
   return (
     <header className="w-full bg-white dark:bg-gray-800 shadow-md py-4 px-6 flex justify-between items-center">
       <Link to="/" className="text-xl font-bold text-gray-800 dark:text-white">
-        MiniLuma
+        Event Verse
       </Link>
       <nav className="flex items-center space-x-">
         {user ? (
