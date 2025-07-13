@@ -2,16 +2,18 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../pages/contexts/AuthContext";
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
 import { Calendar } from "lucide-react";
+import { useUserRole } from "../hooks/useUserRole";
 
 const Header = () => {
   const auth = useAuth();
+  const { role } = useUserRole();
 
   if (auth.loading) {
     return (
       <header className="w-full bg-white dark:bg-gray-800 shadow-md py-4 px-6 flex justify-between items-center">
         <Link
           to="/"
-          className="text-xl font-bold text-gray-800 dark:text-white"
+          className="text-xl font-medium text-gray-800 dark:text-white"
         >
           Event Verse
         </Link>
@@ -23,7 +25,10 @@ const Header = () => {
 
   return (
     <header className="w-full bg-white dark:bg-gray-800 shadow-md py-4 px-6 flex justify-between items-center">
-      <Link to="/" className="text-xl font-bold text-gray-800 dark:text-white">
+      <Link
+        to="/"
+        className="text-xl font-medium text-gray-800 dark:text-white"
+      >
         Event Verse
       </Link>
       <nav className="flex items-center space-x-">
@@ -35,6 +40,14 @@ const Header = () => {
                 My Events
               </button>
             </Link>
+
+            {role === "admin" && (
+              <Link to="/admin">
+                <button className="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-white bg-green-600 hover:bg-green-700 transition-colors duration-200 dark:bg-green-500 dark:hover:bg-green-600">
+                  Admin Dashboard
+                </button>
+              </Link>
+            )}
             <Avatar className="cursor-pointer">
               <AvatarImage
                 src={user.photoURL || "https://github.com/shadcn.png"}

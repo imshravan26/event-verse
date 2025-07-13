@@ -64,8 +64,6 @@ export const EventCard = ({ event }: EventCardProps) => (
       <div className="flex items-center mb-3">
         <Calendar className="w-4 h-4 mr-2 text-blue-500" />
         <span className="text-sm">{event.date}</span>
-        <Clock className="w-4 h-4 ml-4 mr-2 text-blue-500" />
-        <span className="text-sm">{event.time}</span>
       </div>
 
       <div className="flex items-center mb-3">
@@ -73,23 +71,6 @@ export const EventCard = ({ event }: EventCardProps) => (
         <span className="text-sm">{event.location}</span>
       </div>
 
-      <div className="flex items-center mb-4">
-        <Users className="w-4 h-4 mr-2 text-green-500" />
-        <span className="text-sm">{event.attendees} attendees</span>
-        <Star className="w-4 h-4 ml-4 mr-1 text-yellow-500" />
-        <span className="text-sm">{event.rating}</span>
-      </div>
-
-      <div className="flex flex-wrap gap-2 mb-4">
-        {event.tags.slice(0, 3).map((tag, index) => (
-          <span
-            key={index}
-            className="px-2 py-1 rounded-full text-xs dark:bg-gray-700 dark:text-gray-300 bg-gray-100 text-gray-600"
-          >
-            {tag}
-          </span>
-        ))}
-      </div>
       <Link to={`/event/${event.id}`}>
         <button className="w-full py-3 rounded-lg font-semibold transition-all duration-200 bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 active:scale-95">
           Explore

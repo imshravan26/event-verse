@@ -6,7 +6,8 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import { auth } from "../../lib/firebase";
+import { auth, db } from "../../lib/firebase";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 
 interface AuthContextType {
   user: User | null;
@@ -14,6 +15,20 @@ interface AuthContextType {
   logout: () => Promise<void>;
   loading: boolean;
 }
+
+const createUserIfNotExists = async (user: { uid: string; email: string }) => {
+  const userRef = doc(db, "users", user.uid);
+  const userSnap = await getDoc(userRef);
+
+  if (!userSnap.exists()) {
+    await setDoc(userRef, {
+      uid: user.uid,
+      email: user.email,
+      role: user.email === "shravanchaudhari99@gmail.com" ? "admin" : "user", // 🎯 bootstrap admin
+    });
+  }
+};
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const useAuth = () => {
@@ -54,7 +69,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }
     try {
       const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
+      const userCredential = await signInWithPopup(auth, provider);
+      if (userCredential.user) {
+        const { uid, email } = userCredential.user;
+        if (uid && email) {
+          await createUserIfNotExists({ uid, email });
+          console.log("user data created successfully");
+        }
+      }
     } catch (error) {
       console.error("Error signing in with Google:", error);
       throw error;
